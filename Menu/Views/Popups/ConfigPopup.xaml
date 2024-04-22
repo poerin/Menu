@@ -1,0 +1,15 @@
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="Menu.Views.Popups.ConfigPopup" BackgroundColor="Transparent">
+    <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnBackgroundTapped" NumberOfTapsRequired="1" />
+        </Grid.GestureRecognizers>
+        <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+            <Frame>
+                <StackLayout Margin="20">
+                    <Button x:Name="ImportDataButton" Text="导入数据" />
+                    <Button x:Name="ExportDataButton" Text="导出数据" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </Grid>
+</ContentView>

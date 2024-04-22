@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:models="clr-namespace:Menu.Models" x:Class="Menu.Views.FoodCategoryPage" Title="食物类别">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="20,20,20,50">
+            <VerticalStackLayout Grid.Row="0">
+                <Label Text="食物类别" FontSize="26" FontAttributes="Bold" Margin="20,20,20,20" HorizontalOptions="Center" />
+                <CollectionView ItemsSource="{Binding Categories}" Margin="0,20,0,20">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:FoodCategory">
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                <Entry Text="{Binding CategoryName, Mode=TwoWay}" WidthRequest="90" FontSize="15" FontAttributes="Bold" Margin="4,4,4,4" Placeholder="类别名称" />
+                                <Entry Text="{Binding NumberOfItems, Mode=TwoWay}" WidthRequest="45" FontSize="15" FontAttributes="Bold" Margin="4,4,4,4" Placeholder="食物数量" />
+                                <Button Text="更新" Command="{Binding Path=BindingContext.UpdateCategoryCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}" CommandParameter="{Binding .}" MinimumHeightRequest="22" MinimumWidthRequest="22" HeightRequest="38" Margin="4,4,2,4" Padding="6" FontSize="15" FontAttributes="Bold" />
+                                <Button Text="删除" Command="{Binding Path=BindingContext.DeleteCategoryCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}" CommandParameter="{Binding .}" MinimumHeightRequest="22" MinimumWidthRequest="22" HeightRequest="38" Margin="2,4,2,4" Padding="6" FontSize="15" FontAttributes="Bold" />
+                                <Button Text="查看" Command="{Binding Path=BindingContext.ViewCategoryCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}" CommandParameter="{Binding .}" MinimumHeightRequest="22" MinimumWidthRequest="22" HeightRequest="38" Margin="2,4,4,4" Padding="6" FontSize="15" FontAttributes="Bold" BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}" TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource SecondaryDarkText}}" />
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Button Text="添加类别" Clicked="OnAddClicked" Margin="10,10,10,10" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

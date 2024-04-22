@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:models="clr-namespace:Menu.Models" x:Class="Menu.Views.FoodItemPage" Title="{Binding FoodCategory.CategoryName}">
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <ScrollView AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Padding="20,20,20,50">
+                <StackLayout Padding="10">
+                    <Label Text="{Binding FoodCategory.CategoryName}" FontSize="26" FontAttributes="Bold" Margin="20,20,20,20" HorizontalOptions="Center" />
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <StackLayout BindableLayout.ItemsSource="{Binding FoodGroups}" Margin="0">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout>
+                                        <Label Text="{Binding GroupTitle}" FontAttributes="Bold" Margin="10,20,10,10" />
+                                        <FlexLayout Direction="Row" Wrap="Wrap" JustifyContent="Start" AlignItems="Start" BindableLayout.ItemsSource="{Binding Foods}">
+                                            <BindableLayout.ItemTemplate>
+                                                <DataTemplate x:DataType="models:FoodItem">
+                                                    <StackLayout Orientation="Horizontal" Padding="6,6">
+                                                        <Button Text="{Binding FoodName}" FontSize="15" CornerRadius="8" MinimumHeightRequest="40" MinimumWidthRequest="40" HeightRequest="40" Padding="8,8,8,8" Margin="0" Clicked="OnFoodNameClicked" BackgroundColor="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource TertiaryDark}}" TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource TertiaryDarkText}}" />
+                                                        <Button Text="{Binding Weight}" FontSize="15" CornerRadius="8" MinimumHeightRequest="40" MinimumWidthRequest="40" HeightRequest="40" Padding="8,8,8,8" Margin="0" Clicked="OnFoodWeightClicked" BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource SecondaryDark}}" TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource SecondaryDarkText}}" />
+                                                    </StackLayout>
+                                                </DataTemplate>
+                                            </BindableLayout.ItemTemplate>
+                                        </FlexLayout>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+            </ScrollView>
+            <Button Text="添加食物" AbsoluteLayout.LayoutBounds="1,1,-1,-1" AbsoluteLayout.LayoutFlags="PositionProportional" Margin="20,20,20,20" HorizontalOptions="End" VerticalOptions="End" Clicked="OnAddClicked" />
+        </AbsoluteLayout>
+    </Grid>
+</ContentPage>
