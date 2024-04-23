@@ -28,26 +28,32 @@ public class FoodItemPageViewModel(FoodItemService foodItemService)
 
     public async Task LoadFoodItemsAsync()
     {
-        var foodItems = await foodItemService.GetItemsByCategoryIdAsync(FoodCategory.Id);
-
-        var groupedFoodItems = foodItems
-            .OrderBy(item => item.GroupNumber)
-            .GroupBy(item => item.GroupNumber)
-            .Select(g => new FoodGroupViewModel(g.Key, g))
-            .ToList();
-
-        FoodGroups.Clear();
-        foreach (var groupViewModel in groupedFoodItems)
+        if (FoodCategory != null)
         {
-            FoodGroups.Add(groupViewModel);
+            var foodItems = await foodItemService.GetItemsByCategoryIdAsync(FoodCategory.Id);
+
+            var groupedFoodItems = foodItems
+                .OrderBy(item => item.GroupNumber)
+                .GroupBy(item => item.GroupNumber)
+                .Select(g => new FoodGroupViewModel(g.Key, g))
+                .ToList();
+
+            FoodGroups.Clear();
+            foreach (var groupViewModel in groupedFoodItems)
+            {
+                FoodGroups.Add(groupViewModel);
+            }
         }
     }
 
     public async Task AddItemAsync(string foodName, int weight, int groupNumber)
     {
-        var newItem = new FoodItem { FoodCategoryId = FoodCategory.Id, FoodName = foodName, Weight = weight, GroupNumber = groupNumber };
-        await foodItemService.InsertItemAsync(newItem);
-        await LoadFoodItemsAsync();
+        if (FoodCategory != null)
+        {
+            var newItem = new FoodItem { FoodCategoryId = FoodCategory.Id, FoodName = foodName, Weight = weight, GroupNumber = groupNumber };
+            await foodItemService.InsertItemAsync(newItem);
+            await LoadFoodItemsAsync();
+        }
     }
 
     public async Task UpdateItemAsync(FoodItem item)
@@ -64,7 +70,11 @@ public class FoodItemPageViewModel(FoodItemService foodItemService)
 
     public Task<bool> ItemExistsAsync(string foodName)
     {
-        return foodItemService.ItemExistsAsync(FoodCategory.Id, foodName);
+        if (FoodCategory != null)
+        {
+            return foodItemService.ItemExistsAsync(FoodCategory.Id, foodName);
+        }
+        return Task.FromResult(true);
     }
 
 }

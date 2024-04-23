@@ -57,4 +57,36 @@ public partial class FoodCategoryPage : ContentPage
         MainGrid.Children.Add(popup);
     }
 
+    private async void OnDeleteButtonClicked(object sender, EventArgs e)
+    {
+        if (sender is Button button && button.BindingContext is FoodCategoryPageViewModel.FoodCategoryViewModel categoryVM)
+        {
+            bool confirmDelete = await DisplayAlert("提示", $"确定要删除{categoryVM.OriginalCategoryName}类别吗？", "确认", "取消");
+            if (confirmDelete)
+            {
+                _viewModel.DeleteCategoryCommand.Execute(categoryVM);
+            }
+        }
+    }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        _viewModel.UpdateStatusChanged += OnUpdateStatusChanged;
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        _viewModel.UpdateStatusChanged -= OnUpdateStatusChanged;
+    }
+
+    private async void OnUpdateStatusChanged(object? sender, bool e)
+    {
+        if (!e)
+        {
+            await DisplayAlert("错误", "已存在该类别名称。", "确认");
+        }
+    }
+
 }
